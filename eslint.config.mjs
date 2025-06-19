@@ -34,11 +34,56 @@
 //  ];
 
 //4.2
+// import globals from "globals";
+// import pluginJs from "@eslint/js";
+// import pluginReact from "eslint-plugin-react";
+// import pluginSecurity from "eslint-plugin-security";
+// import pluginSecurityNode from "eslint-plugin-security-node"; // ✅ Add this
+
+// /** @type {import('eslint').Linter.FlatConfig[]} */
+// export default [
+//   {
+//     files: ["**/*.{js,mjs,cjs,jsx}"],
+//     languageOptions: {
+//       ecmaVersion: 2021,
+//       sourceType: "module",
+//       globals: {
+//         ...globals.browser,
+//         ...globals.node, // ✅ For Node.js
+//       },
+//     },
+//     plugins: {
+//       react: pluginReact,
+//       security: pluginSecurity,
+//       "security-node": pluginSecurityNode, // ✅ Register the plugin
+//     },
+//     rules: {
+//       // Built-in rules
+//       ...pluginJs.configs.recommended.rules,
+//       // React rules
+//       ...pluginReact.configs.recommended.rules,
+//       // Security rules
+//       "security/detect-eval-with-expression": "error",
+//       "security-node/detect-disable-mustache-escape": "warn",
+//       "security-node/detect-insecure-cookies": "warn",
+//       "security-node/detect-no-csrf-before-method-override": "warn",
+//       // Add more rules as needed from the plugin docs
+//     },
+//     settings: {
+//       react: {
+//         version: "detect",
+//       },
+//     },
+//   },
+// ];
+
+//4.3
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
 import pluginSecurity from "eslint-plugin-security";
-import pluginSecurityNode from "eslint-plugin-security-node"; // ✅ Add this
+import pluginSecurityNode from "eslint-plugin-security-node";
+import pluginNoUnsanitized from "eslint-plugin-no-unsanitized"; // ✅ NEW
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
@@ -49,25 +94,28 @@ export default [
       sourceType: "module",
       globals: {
         ...globals.browser,
-        ...globals.node, // ✅ For Node.js
+        ...globals.node,
       },
     },
     plugins: {
       react: pluginReact,
       security: pluginSecurity,
-      "security-node": pluginSecurityNode, // ✅ Register the plugin
+      "security-node": pluginSecurityNode,
+      "no-unsanitized": pluginNoUnsanitized, // ✅ REGISTER
     },
     rules: {
-      // Built-in rules
+      // Base + React
       ...pluginJs.configs.recommended.rules,
-      // React rules
       ...pluginReact.configs.recommended.rules,
+
       // Security rules
       "security/detect-eval-with-expression": "error",
       "security-node/detect-disable-mustache-escape": "warn",
       "security-node/detect-insecure-cookies": "warn",
       "security-node/detect-no-csrf-before-method-override": "warn",
-      // Add more rules as needed from the plugin docs
+
+      // ✅ No-Unsanitized rules
+      ...pluginNoUnsanitized.configs.recommended.rules,
     },
     settings: {
       react: {
@@ -76,3 +124,4 @@ export default [
     },
   },
 ];
+
